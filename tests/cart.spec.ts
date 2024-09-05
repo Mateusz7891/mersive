@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import { MainPage } from '../pages/mainPage';
 import { CartPage } from '../pages/cartPage';
 
-test('test', async ({ browser }) => {
+test('buy, delete tests', async ({ browser }) => {
     const context = await browser.newContext();
 
     // First Tab
