@@ -1,0 +1,22 @@
+{
+  "name": "mersive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wlodekmateusz/mersive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wlodekmateusz/mersive/issues"
+  },
+  "homepage": "https://github.com/wlodekmateusz/mersive#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.5.4"
+  }
+}
