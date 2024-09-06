@@ -1,45 +1,45 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { QuizPage } from '../pages/quizPage';
 import { MainPage } from '../pages/mainPage';
-import { expect } from '@playwright/test';
+import { quizData } from '../data/quizData'; // Import the quiz data
 
+// Helper function to execute a quiz flow
+const runQuizFlow = async (quizPage: QuizPage, quizInfo: any) => {
+    // Navigate to the quiz and start it
+    await quizPage.navigateToQuiz();
+    await quizPage.startQuiz();
+
+    // Answer multiple-choice and single-choice questions
+    await quizPage.answerQuestionMultiChoice(quizInfo.choices.multiChoice1);
+    await quizPage.clickNextButton();
+    await quizPage.answerQuestionSingleChoice(quizInfo.choices.singleChoice);
+    await quizPage.clickNextButton();
+    await quizPage.answerQuestionMultiChoice(quizInfo.choices.multiChoice2);
+    await quizPage.clickNextButton();
+    await quizPage.answerQuestionMultiChoice(quizInfo.choices.multiChoice3);
+    await quizPage.submitResults();
+    
+    // Verify the result and the image file name
+    await quizPage.verifyResults(quizInfo.resultText);
+    await quizPage.verifyImageFileNameIsExactly(quizInfo.imageFileName);
+};
 
 test('quiz flow test', async ({ page }) => {
     const quizPage = new QuizPage(page);
     const mainPage = new MainPage(page);
-    const resultOne = 'Given your workforce is predominantly or entirely in-office, you should consider Solstice to enhance your meeting spaces for more efficient, engaging, and productive meetings.'
-    const resultTwo = 'Given your need to enhance training and learning spaces, you should consider Solstice Active Learning to create the most engaging team-based learning environments.'
 
-
-    // 1: Conference Room quiz
-    await quizPage.navigateToQuiz();
+    // Accept cookies only once at the beginning of the test
+    await mainPage.navigate();
     await mainPage.acceptCookies();
-    await quizPage.startQuiz();
-    await quizPage.answerQuestionMultiChoice(['Conference Room Up to 20']);
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionSingleChoice('Onsite');
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionMultiChoice(['Room Audio/Video']);
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionMultiChoice(['Dealer / Integrator', 'AV / IT']);
-    await quizPage.submitResults();
-    await quizPage.verifyResults(resultOne);
-    await quizPage.verifyImageFileNameIsExactly('Solstice.svg');
 
+    // 1: Run the "Conference Room" quiz flow
+    console.log('Running Conference Room Quiz');
+    await runQuizFlow(quizPage, quizData.quiz1);
 
-    // 2: Active Learning quiz
-    await quizPage.navigateToQuiz();
-    await quizPage.startQuiz();
-    await quizPage.answerQuestionMultiChoice(['Active Learning Up to 50']);
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionSingleChoice('Hybrid');
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionMultiChoice(['Workplace Analytics']);
-    await quizPage.clickNextButton();
-    await quizPage.answerQuestionMultiChoice(['End User / Customer']);
-    await quizPage.submitResults();
-    await quizPage.verifyResults(resultTwo);
-    await quizPage.verifyImageFileNameIsExactly('Solstice-Active-Learning.svg');
+    // 2: Run the "Active Learning" quiz flow
+    console.log('Running Active Learning Quiz');
+    await runQuizFlow(quizPage, quizData.quiz2);
 
-    expect(resultOne).not.toBe(resultTwo);        // Ensure the results of the two quizzes are different
+    // Ensure the results of the two quizzes are different
+    expect(quizData.quiz1.resultText).not.toBe(quizData.quiz2.resultText);
 });
