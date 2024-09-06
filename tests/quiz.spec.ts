@@ -24,7 +24,7 @@ test('quiz flow test', async ({ page }) => {
     await quizPage.answerQuestionMultiChoice(['Dealer / Integrator', 'AV / IT']);
     await quizPage.submitResults();
     await quizPage.verifyResults(resultOne);
-    await quizPage.verifyImageSrcContains('Solstice.svg');
+    await quizPage.verifyImageFileNameIsExactly('Solstice.svg');
 
 
     // 2: Active Learning quiz
@@ -39,7 +39,7 @@ test('quiz flow test', async ({ page }) => {
     await quizPage.answerQuestionMultiChoice(['End User / Customer']);
     await quizPage.submitResults();
     await quizPage.verifyResults(resultTwo);
-    await quizPage.verifyImageSrcContains('Solstice-Active-Learning.svg');
+    await quizPage.verifyImageFileNameIsExactly('Solstice-Active-Learning.svg');
 
     expect(resultOne).not.toBe(resultTwo);        // Ensure the results of the two quizzes are different
 });

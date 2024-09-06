@@ -43,19 +43,26 @@ export class QuizPage {
         await this.page.goto(`https://www.mersive.com/solstice-quiz-results/${queryParams}`);
     } 
 
-    async verifyImageSrcContains(imageName: string) {
-        // Find the img element whose 'src' attribute contains the value passed as a parameter
-        const imageLocator = this.page.locator(`//img[contains(@src, '${imageName}')]`);
-                
+    async verifyImageFileNameIsExactly(imageFileName: string) {
+        // Find the img element whose 'src' attribute contains the image file name
+        const imageLocator = this.page.locator(`//img[contains(@src, '${imageFileName}')]`);
+        
+        // Wait until the element is visible on the page
+        await imageLocator.waitFor({ state: 'visible' });
+        
         // Ensure exactly one such image is found
         await expect(imageLocator).toHaveCount(1);
         
         // Retrieve the 'src' attribute of the image element
         const imageSrc = await imageLocator.getAttribute('src');
         
-        // Check if the 'src' contains the expected value (imageName)
-        expect(imageSrc).toContain(imageName);
+        // Extract the file name from the full 'src' URL
+        const extractedFileName = imageSrc?.split('/').pop();
+        
+        // Check if the extracted file name is exactly the same as the expected image file name
+        expect(extractedFileName).toBe(imageFileName);
     }
+    
     
     
     
