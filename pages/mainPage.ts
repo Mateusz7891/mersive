@@ -14,7 +14,7 @@ export class MainPage {
     }
 
     async navigate() {
-        await this.page.goto('https://www.mersive.com/');
+        await this.page.goto('/');
     }
 
     async acceptCookies() {

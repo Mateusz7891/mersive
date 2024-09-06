@@ -8,7 +8,7 @@ export class QuizPage {
     }
 
     async navigateToQuiz() {
-        await this.page.goto('https://www.mersive.com/solstice-quiz/');
+        await this.page.goto('/solstice-quiz/');
     }
 
     async startQuiz() {
@@ -40,7 +40,7 @@ export class QuizPage {
     }
 
     async navigateToQuizResults(queryParams: string) {
-        await this.page.goto(`https://www.mersive.com/solstice-quiz-results/${queryParams}`);
+        await this.page.goto(`solstice-quiz-results/${queryParams}`);
     } 
 
     async verifyImageFileNameIsExactly(imageFileName: string) {

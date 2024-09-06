@@ -18,7 +18,7 @@ test('buy, delete tests', async ({ browser }) => {
     // Second Tab
     const page1 = await context.newPage();
     const cartPage = new CartPage(page1);
-    await page1.goto('https://www.mersive.com/');
+    await page1.goto('/');
     await cartPage.navigateToCart();
     await cartPage.deleteProduct();
     await cartPage.verifyCartIsEmpty();
