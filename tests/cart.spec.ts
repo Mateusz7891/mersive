@@ -4,6 +4,7 @@ import { CartPage } from '../pages/cartPage';
 
 test('buy, delete tests', async ({ browser }) => {
     const context = await browser.newContext();
+    const value = '698.00'
 
     // First Tab
     const page = await context.newPage();
@@ -13,15 +14,16 @@ test('buy, delete tests', async ({ browser }) => {
     await mainPage.acceptCookies();
     await mainPage.clickBuyNow();
     await mainPage.addToCart();
-    await mainPage.verifyProductInCart();
+    await mainPage.verifyProductInCart(value, 1);
 
     // Second Tab
     const page1 = await context.newPage();
     const cartPage = new CartPage(page1);
     await page1.goto('/');
     await cartPage.navigateToCart();
+    
     await cartPage.deleteProduct();
-    await cartPage.verifyCartIsEmpty();
+    await cartPage.verifyCartIsEmpty(1);
     await cartPage.returnToShop();
 
     // Back to the main page

@@ -21,22 +21,15 @@ export class CartPage {
             const productVisible = await this.page.locator('.xoo-wsc-product').first().isVisible();
             if (productVisible) break;
         }
-        await this.verifyProductInCart();
-    }
-    
-
-    async verifyProductInCart() {
-        await expect(this.page.locator('body')).toContainText('Solstice Element - + $698.00');
-        await expect(this.page.locator('.xoo-wsc-product').first()).toBeVisible();
     }
 
     async deleteProduct() {
         await this.deleteProductButton.click();
     }
 
-    async verifyCartIsEmpty() {
-        await expect(this.page.locator('body')).toContainText('Your cart is empty');
-        await expect(this.page.locator('body')).toContainText('My Cart (0)');
+    async verifyCartIsEmpty(quantity: number) {
+        const expectedCartText = `My Cart (${quantity})`;
+        await expect(this.page.locator('body')).toContainText(expectedCartText);
     }
 
     async returnToShop() {

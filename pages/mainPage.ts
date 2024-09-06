@@ -32,10 +32,17 @@ export class MainPage {
     }
     
 
-    async verifyProductInCart() {
-        await expect(this.page.locator('body')).toContainText('Solstice Element - + $698.00');
-        await expect(this.page.locator('body')).toContainText('My Cart (1)');
+    async verifyProductInCart(price: string, quantity: number) {
+        const expectedProductText = `Solstice Element - + $${price}`;
+        const expectedSubtotalText = `Subtotal $${price}`;
+        const expectedCartText = `My Cart (${quantity})`;
+    
+        // Verify product text, subtotal, and cart quantity
+        await expect(this.page.locator('body')).toContainText(expectedProductText);
+        await expect(this.page.locator('body')).toContainText(expectedSubtotalText);
+        await expect(this.page.locator('body')).toContainText(expectedCartText);
     }
+    
 
     async goToProductPageWithReload(context) {
         const pages = context.pages();
