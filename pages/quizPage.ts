@@ -42,5 +42,21 @@ export class QuizPage {
     async navigateToQuizResults(queryParams: string) {
         await this.page.goto(`https://www.mersive.com/solstice-quiz-results/${queryParams}`);
     } 
+
+    async verifyImageSrcContains(imageName: string) {
+        // Find the img element whose 'src' attribute contains the value passed as a parameter
+        const imageLocator = this.page.locator(`//img[contains(@src, '${imageName}')]`);
+                
+        // Ensure exactly one such image is found
+        await expect(imageLocator).toHaveCount(1);
+        
+        // Retrieve the 'src' attribute of the image element
+        const imageSrc = await imageLocator.getAttribute('src');
+        
+        // Check if the 'src' contains the expected value (imageName)
+        expect(imageSrc).toContain(imageName);
+    }
+    
+    
     
 }
